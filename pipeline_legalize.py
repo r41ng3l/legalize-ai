@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from google.adk.agents import LlmAgent
 from google.adk.runners import InMemoryRunner
-from google.adk.events import Event          # <--- NUEVO IMPORT REQUERIDO
+from google.adk.events import Event
 from google.genai import types
 
 logger = logging.getLogger(__name__)
@@ -64,7 +64,7 @@ def buscar_leyes_ripgrep(palabras_clave: str) -> str:
         titulo = "Título desconocido"
         try:
             with open(ruta, 'r', encoding='utf-8') as f:
-                contenido = f.read(2000) # Leer solo los primeros 2000 chars para el YAML
+                contenido = f.read(2000)
                 partes = contenido.split('---')
                 if len(partes) >= 3:
                     metadatos = yaml.safe_load(partes[1])
@@ -159,14 +159,13 @@ async def ejecutar_pipeline_legal(historial: List[dict], model: str) -> str:
         user_id="webui_user",
     )
 
-    # Inyectar historial completo (¡CÓDIGO CORREGIDO!)
+    # Inyectar historial completo
     for msg in historial[:-1]:
         role = msg.get('role', 'user')
         content = msg.get('content', '')
         if role in ('user', 'assistant') and content:
             adk_role = 'user' if role == 'user' else 'model'
             
-            # Instanciamos el objeto Event correctamente
             author_val = 'user' if adk_role == 'user' else abogado_experto.name
             evento_historico = Event(
                 author=author_val,
@@ -176,7 +175,6 @@ async def ejecutar_pipeline_legal(historial: List[dict], model: str) -> str:
                 )
             )
             
-            # Lo inyectamos usando solo session y el objeto event
             await runner.session_service.append_event(session, evento_historico)
 
     # Mensaje actual
