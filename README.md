@@ -1,8 +1,6 @@
 # Legalize AI Assistant
 
-Un Agente de IA para interactuar con la legislación española (BOE) en lenguaje natural, alimentado por Google Gemini 3.1 Flash y el repositorio [legalize-es](https://github.com/legalize-dev/legalize-es).
-
-Desarrollado con [uv ⚡](https://github.com/astral-sh/uv) para un rendimiento extremo.
+Un Agente de IA para interactuar con la legislación española (BOE) en lenguaje natural, alimentado por el repositorio [legalize-es](https://github.com/legalize-dev/legalize-es).
 
 ## Requisitos previos
 
